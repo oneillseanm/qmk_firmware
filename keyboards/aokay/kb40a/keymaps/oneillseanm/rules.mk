@@ -1,0 +1,8 @@
+DYNAMIC_TAPPING_TERM_ENABLE = yes
+BOOTMAGIC_ENABLE = yes
+
+#CONSOLE_ENABLE = yes
+DEFERRED_EXEC_ENABLE = yes
+
+# load source code4
+SRC += default.c
