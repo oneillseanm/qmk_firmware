@@ -1,6 +1,6 @@
 # KB-40-A
 
-![KB-40-A illustration](https://i.imgur.com/a/vZifIro)
+![KB-40-A illustration](https://i.imgur.com/a/vZifIro.png)
 
 ## Description
 
