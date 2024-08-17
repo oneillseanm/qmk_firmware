@@ -1,14 +1,14 @@
 # KB-40-A
 
-![KB-40-A illustration](https://i.imgur.com/x8FNkei.png)
+![KB-40-A illustration](https://i.imgur.com/a/vZifIro)
 
 ## Description
 
-A compact, staggered, 40% (4x12) keyboard.
+A 40% keyboard kit with a staggered, 12-U layout.
 
-* Keyboard Maintainer: [Sean O'Neill](https://github.com/oneillseanm)
-* Hardware Supported: TODO
-* Hardware Availability: TODO
+* Keyboard Maintainer: [Sean O'Neill](https://oneillseanm.github.io)
+* Hardware Supported: Proprietary PCB using ATmega32U4 controller
+* Hardware Availability: [KB-40-A info page](https://oneillseanm.github.io/kb40a.html)
 
 ## Setup
 
