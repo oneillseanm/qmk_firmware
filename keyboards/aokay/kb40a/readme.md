@@ -4,7 +4,7 @@
 
 ## Description
 
-A 40% keyboard kit with a staggered, 12-U layout.
+A 40% keyboard kit with a staggered, 12u layout.
 
 * Keyboard Maintainer: [Sean O'Neill](https://oneillseanm.github.io)
 * Hardware Supported: Proprietary PCB using ATmega32U4 controller
