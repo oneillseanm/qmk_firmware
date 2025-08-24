@@ -52,6 +52,8 @@ layer_state_t layer_state_set_user(layer_state_t state) {
             case 1: SET_HS_KEEP_V(HSV_MID1BLUE);   break;
             case 2: SET_HS_KEEP_V(HSV_MID1GREEN);  break;
             case 3: SET_HS_KEEP_V(HSV_MID1PURPLE); break;
+            case 4: SET_HS_KEEP_V(HSV_MID1RED); break;
+            case 5: SET_HS_KEEP_V(HSV_MID1RED); break;
             default: SET_HS_KEEP_V(HSV_WHITE);     break;
         }
     }
