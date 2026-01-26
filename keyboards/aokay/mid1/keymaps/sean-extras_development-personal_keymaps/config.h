@@ -1,12 +1,3 @@
-/* --------------------------------------------------------------------------
- * MID.1 – Config (oneillseanm)
- * --------------------------------------------------------------------------
- * RGB defaults, palette, and utility defines used by the keymap and modules.
- * Notes:
- *  - Values (h,s,v) are 0..359 / 0..255 / 0..255 as per QMK rgb_light.
- *  - These do not affect compilation order; they’re read by your code.
- * -------------------------------------------------------------------------- */
-
 #pragma once
 
 /* do not include unneeded animations */
@@ -22,9 +13,9 @@
 #define RGBLIGHT_DEFAULT_SAT    255
 #define RGBLIGHT_DEFAULT_VAL    128
 #define RGBLIGHT_DEFAULT_MODE   RGBLIGHT_MODE_STATIC_LIGHT
-#undef RGBLIGHT_HUE_STEP
+#undef  RGBLIGHT_HUE_STEP
 #define RGBLIGHT_HUE_STEP       5
-#undef RGBLIGHT_LIMIT_VAL
+#undef  RGBLIGHT_LIMIT_VAL
 #define RGBLIGHT_LIMIT_VAL      180
 #define RGBLIGHT_SLEEP
 
@@ -37,6 +28,5 @@
 #define HSV_MID1SAGE    (94,  122, 168)
 
 /* Feature-specific colors */
-#define HSV_POMO_BREAK  (0,   0,   255)
-#define HSV_CP_DEFAULT  (0,   0,   255)
-
+#define HSV_FOCUS_BREAK (0,   0,   255)
+#define HSV_LED_CONTROLLER_DEFAULT  (0,   0,   255)

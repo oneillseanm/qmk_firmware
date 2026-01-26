@@ -43,37 +43,37 @@
                     "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS",
                     "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS",
                     "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS",
-                    "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "POMO_TOGGLE"
+                    "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "FOCUS_TOGGLE"
                 ],
                 [
                     "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS",
                     "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS",
                     "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS",
-                    "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "POMO_TOGGLE", "KC_TRNS"
+                    "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "FOCUS_TOGGLE", "KC_TRNS"
                 ],
                 [
-                    "CP_RESET", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS",
+                    "LED_CONTROLLER_RESET", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS",
                     "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS",
                     "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS",
-                    "UG_TOGG", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "CP_BOOT_PLAY", "CP_BOOT_TOG"
+                    "UG_TOGG", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "LED_CONTROLLER_BOOT_PLAY", "LED_CONTROLLER_BOOT_TOG"
                 ],
                 [
-                    "CP_RESET", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS",
+                    "LED_CONTROLLER_RESET", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS",
                     "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS",
                     "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS",
-                    "UG_TOGG", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "CP_BOOT_PLAY", "CP_BOOT_TOG"
+                    "UG_TOGG", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "LED_CONTROLLER_BOOT_PLAY", "LED_CONTROLLER_BOOT_TOG"
                 ],
                 [
-                    "CP_RESET", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS",
+                    "LED_CONTROLLER_RESET", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS",
                     "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS",
                     "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS",
-                    "UG_TOGG", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "CP_BOOT_PLAY", "CP_BOOT_TOG"
+                    "UG_TOGG", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "LED_CONTROLLER_BOOT_PLAY", "LED_CONTROLLER_BOOT_TOG"
                 ],
                 [
-                    "CP_RESET", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS",
+                    "LED_CONTROLLER_RESET", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS",
                     "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS",
                     "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS",
-                    "UG_TOGG", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "CP_BOOT_PLAY", "CP_BOOT_TOG"
+                    "UG_TOGG", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "LED_CONTROLLER_BOOT_PLAY", "LED_CONTROLLER_BOOT_TOG"
                 ]
     ],
     "config": {
@@ -107,24 +107,24 @@
           { "ccw": "KC_TRNS", "cw": "KC_TRNS" }
       ],
       [
-          { "ccw": "POMO_WORK_DEC", "cw": "POMO_WORK_INC" },
+          { "ccw": "FOCUS_WORK_DEC", "cw": "FOCUS_WORK_INC" },
           { "ccw": "KC_TRNS", "cw": "KC_TRNS" }
       ],
       [
-          { "ccw": "POMO_BREAK_DEC", "cw": "POMO_BREAK_INC" },
+          { "ccw": "FOCUS_BREAK_DEC", "cw": "FOCUS_BREAK_INC" },
           { "ccw": "KC_TRNS", "cw": "KC_TRNS" }
       ],
       [
-          { "ccw": "CP_LAYER_DEC", "cw": "CP_LAYER_INC" },
-          { "ccw": "CP_HUE_DEC", "cw": "CP_HUE_INC" }
+          { "ccw": "LED_CONTROLLER_LAYER_DEC", "cw": "LED_CONTROLLER_LAYER_INC" },
+          { "ccw": "LED_CONTROLLER_HUE_DEC", "cw": "LED_CONTROLLER_HUE_INC" }
       ],
       [
-          { "ccw": "CP_LAYER_DEC", "cw": "CP_LAYER_INC" },
-          { "ccw": "CP_SAT_DEC", "cw": "CP_SAT_INC" }
+          { "ccw": "LED_CONTROLLER_LAYER_DEC", "cw": "LED_CONTROLLER_LAYER_INC" },
+          { "ccw": "LED_CONTROLLER_SAT_DEC", "cw": "LED_CONTROLLER_SAT_INC" }
       ],
       [
-          { "ccw": "CP_LAYER_DEC", "cw": "CP_LAYER_INC" },
-          { "ccw": "CP_ANIM_DEC", "cw": "CP_ANIM_INC" }
+          { "ccw": "LED_CONTROLLER_LAYER_DEC", "cw": "LED_CONTROLLER_LAYER_INC" },
+          { "ccw": "LED_CONTROLLER_ANIM_DEC", "cw": "LED_CONTROLLER_ANIM_INC" }
       ],
       [
           { "ccw": "UG_VALD", "cw": "UG_VALU" },

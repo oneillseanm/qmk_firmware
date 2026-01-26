@@ -1,52 +1,46 @@
 /* --------------------------------------------------------------------------
- * MID.1 – Keycodes (oneillseanm)
+ * MID.1 – Keycodes
  * --------------------------------------------------------------------------
  * Contains all custom keycodes for:
- *  - Pomodoro timer (POMO_*)
- *  - Color Picker (CP_*)
- * Style: 4-space indent, K&R braces, ~100-char wrap, thin bar headers.
+ *  - Focus timer (FOCUS_*)
+ *  - LED controller (LED_CONTROLLER_*)
  * -------------------------------------------------------------------------- */
 
 #pragma once
 
 #ifdef __ASSEMBLER__
-/* Assembly units should see nothing from this header */
 #else
 
 #ifndef SAFE_RANGE
-#    include "quantum_keycodes.h"   // provides SAFE_RANGE for the enum
+#    include "quantum_keycodes.h"
 #endif
 
 
-/* -- Custom keycodes (QMK will allocate from SAFE_RANGE) ------------------ */
 enum custom_keycodes {
-    /* Pomodoro timer keycodes --------------------------------------------- */
-    POMO_TOGGLE = SAFE_RANGE,
-    POMO_RESET,
-    POMO_MODE_NEXT,
-    POMO_WORK_DEC,
-    POMO_WORK_INC,
-    POMO_BREAK_DEC,
-    POMO_BREAK_INC,
+    FOCUS_TOGGLE = SAFE_RANGE,
+    FOCUS_RESET,
+    FOCUS_MODE_NEXT,
+    FOCUS_WORK_DEC,
+    FOCUS_WORK_INC,
+    FOCUS_BREAK_DEC,
+    FOCUS_BREAK_INC,
 
-    /* Color Picker keycodes ----------------------------------------------- */
-    CP_LAYER_DEC,
-    CP_LAYER_INC,
-    CP_HUE_DEC,
-    CP_HUE_INC,
-    CP_SAT_DEC,
-    CP_SAT_INC,
-    CP_ANIM_DEC,
-    CP_ANIM_INC,
-    CP_RESET,
-    CP_BOOT_TOG,
-    CP_BOOT_PLAY,
+    LED_CONTROLLER_LAYER_DEC,
+    LED_CONTROLLER_LAYER_INC,
+    LED_CONTROLLER_HUE_DEC,
+    LED_CONTROLLER_HUE_INC,
+    LED_CONTROLLER_SAT_DEC,
+    LED_CONTROLLER_SAT_INC,
+    LED_CONTROLLER_ANIM_DEC,
+    LED_CONTROLLER_ANIM_INC,
+    LED_CONTROLLER_RESET,
+    LED_CONTROLLER_BOOT_TOG,
+    LED_CONTROLLER_BOOT_PLAY,
     NEW_SAFE_RANGE
 };
 
-// (Optional) If other modules depend on the next free range:
 #ifndef DYNAMIC_SAFE_RANGE
 #    define DYNAMIC_SAFE_RANGE NEW_SAFE_RANGE
 #endif
 
-#endif /* __ASSEMBLER__ */
+#endif
