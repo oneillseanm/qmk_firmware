@@ -4,7 +4,7 @@
     "layout": "LAYOUT_all",
     "layers": [
                 [
-                    "KC_ESC", "KC_Q", "KC_W", "KC_E", "KC_R", "KC_T", "KC_Y", "KC_U", "LT(8,KC_I)", "LT(9,KC_O)", "LT(10,KC_P)", "LT(11,KC_BACKSPACE)",
+                    "KC_ESC", "KC_Q", "KC_W", "KC_E", "KC_R", "KC_T", "KC_Y", "KC_U", "LED_EDIT_HUE", "LED_EDIT_SAT", "LED_EDIT_ANIM", "LED_EDIT_VAL",
                     "MT(MOD_LCTL, KC_TAB)", "MT(MOD_LALT, KC_A)", "MT(MOD_LCTL, KC_S)", "MT(MOD_LSFT, KC_D)", "LT(2, KC_F)", "MT(MOD_LGUI, KC_G)", "MT(MOD_RGUI, KC_H)", "LT(1, KC_J)", "MT(MOD_RSFT, KC_K)", "MT(MOD_RCTL, KC_L)", "MT(MOD_RALT, KC_QUOTE)",
                     "KC_LSFT", "KC_Z", "KC_X", "KC_C", "KC_V", "KC_B", "KC_N", "KC_M", "KC_COMM", "KC_DOT", "MT(MOD_RSFT, KC_SLSH)",
                     "TG(1)", "UG_TOGG", "KC_LALT", "LT(3, KC_ENTER)", "LT(3, KC_ENTER)", "KC_DEL", "LT(3, KC_SPC)", "LT(3, KC_SPC)", "KC_LEFT", "LT(6,KC_DOWN)", "LT(7,KC_RIGHT)"

@@ -2,9 +2,9 @@
  * MID.1 LED controller
  * -------------------------------------------------------------------------
  *  Overview
- *  - Hold controller layers (8/9/10) to open an edit window.
- *  - Left encoder: LED_CONTROLLER_LAYER_DEC/INC (select slot 0..11 w/out wrap).
- *  - Right encoder on L8/L9/L10: LED_CONTROLLER_HUE_*, LED_CONTROLLER_SAT_*, LED_CONTROLLER_ANIM_* respectively.
+ *  - Hold LED_EDIT_* keycodes to enter edit modes.
+ *  - Left encoder selects style target (layer / caps).
+ *  - Right encoder edits hue / saturation / animation based on edit mode.
  *  - H/S edits: render masked selection; immediate persist to EEPROM.
  *  - LED controller owns LEDs while window is active; on timeout, control returns to idle.
  *  - H/S/Anim edits: render masked selection; changes mark-dirty and SAVE ON EXIT.
@@ -146,17 +146,7 @@ layer_state_t layer_state_set_user(layer_state_t state) {
     uint8_t layer = get_highest_layer(state);
     static uint8_t last_layer = LED_ALL_MASK;
 
-    if (layer == 8 || layer == 9 || layer == 10) {
-        last_layer = layer;
-        return state;
-    }
-
-    if (startup_anim_active) {
-        last_layer = layer;
-        return state;
-    }
-
-    if (caps_active) {
+    if (startup_anim_active || caps_active) {
         last_layer = layer;
         return state;
     }
@@ -180,21 +170,30 @@ bool led_update_user(led_t state) {
     return true;
 }
 
-/* -- Encoders: while on LED controller layers ----------------------------- */
+/* -- Encoders: while in LED controller modes ------------------------------ */
 bool encoder_update_user(uint8_t index, bool clockwise) {
-    if (layer_state_cmp(layer_state, 8) ||
-        layer_state_cmp(layer_state, 9) ||
-        layer_state_cmp(layer_state, 10)) {
+
+    bool edit_hue  = (led_controller_get_edit_mode() == LED_EDIT_MODE_HUE);
+    bool edit_sat  = (led_controller_get_edit_mode() == LED_EDIT_MODE_SAT);
+    bool edit_anim = (led_controller_get_edit_mode() == LED_EDIT_MODE_ANIM);
+
+    if (edit_hue || edit_sat || edit_anim) {
         bool left = (index == 0);
+
         if (left) {
-            tap_code(clockwise ? LED_CONTROLLER_LAYER_INC : LED_CONTROLLER_LAYER_DEC);
+            tap_code(clockwise ? LED_CONTROLLER_LAYER_INC
+                               : LED_CONTROLLER_LAYER_DEC);
         } else {
-            if      (layer_state_cmp(layer_state, 8)) tap_code(clockwise ? LED_CONTROLLER_HUE_INC  : LED_CONTROLLER_HUE_DEC);
-            else if (layer_state_cmp(layer_state, 9)) tap_code(clockwise ? LED_CONTROLLER_SAT_INC : LED_CONTROLLER_SAT_DEC);
-            else                                      tap_code(clockwise ? LED_CONTROLLER_ANIM_INC : LED_CONTROLLER_ANIM_DEC);
+            if      (edit_hue)  tap_code(clockwise ? LED_CONTROLLER_HUE_INC
+                                                   : LED_CONTROLLER_HUE_DEC);
+            else if (edit_sat)  tap_code(clockwise ? LED_CONTROLLER_SAT_INC
+                                                   : LED_CONTROLLER_SAT_DEC);
+            else                tap_code(clockwise ? LED_CONTROLLER_ANIM_INC
+                                                   : LED_CONTROLLER_ANIM_DEC);
         }
         return false;
     }
+
     return true;
 }
 
@@ -528,7 +527,7 @@ static inline uint8_t led_controller_mask_for_sel(uint8_t sel) {
 }
 
 static HSV16   work;
-static uint8_t sel          = 0; /* 0..11 */
+static uint8_t sel          = 0; /* style slot selection */
 static bool    active       = false;
 static bool    first_render = true;
 static uint32_t last_ms     = 0;
@@ -941,7 +940,7 @@ bool led_controller_process(uint16_t keycode, keyrecord_t *record) {
 }
 
 void led_controller_task(void) {
-    static bool was_led_controller_layers = false;
+    static bool was_led_controller = false;
 
     /* ------------------------------------------------------------
      * Startup animation owns LEDs exclusively
@@ -956,10 +955,7 @@ void led_controller_task(void) {
     if (startup_anim_was_active) {
         startup_anim_was_active = false;
 
-        uint8_t layer = get_highest_layer(layer_state);
-        if (layer == 8 || layer == 9 || layer == 10) {
-            layer = 0;
-        }
+    uint8_t layer = get_highest_layer(layer_state);
 
         /* Global RGB is allowed here because controller is NOT active */
         HSV16  c     = led_controller_get_layer_hsv(layer);
@@ -970,21 +966,13 @@ void led_controller_task(void) {
         rgblight_sethsv_noeeprom(c.h, c.s, v);
     }
 
-    /* ------------------------------------------------------------
-     * Are we currently on LED controller layers?
-     * ------------------------------------------------------------ */
-    bool on_led_controller_layers =
-        layer_state_cmp(layer_state, 8) ||
-        layer_state_cmp(layer_state, 9) ||
-        layer_state_cmp(layer_state, 10);
+bool on_led_controller =
+    (led_controller_get_edit_mode() != LED_EDIT_MODE_NONE);
 
-    if (on_led_controller_layers) {
+    if (on_led_controller) {
         /* Enter / stay in controller mode */
         led_controller_ensure_active();
-    } else if (was_led_controller_layers) {
-        /* --------------------------------------------------------
-         * Just exited LED controller layers
-         * -------------------------------------------------------- */
+    } else if (was_led_controller) {
         led_controller_release();
 
         /* Restore base layer RGB ONCE (only if Caps not active) */
@@ -1000,7 +988,7 @@ void led_controller_task(void) {
         }
     }
 
-    was_led_controller_layers = on_led_controller_layers;
+    was_led_controller = on_led_controller;
 
     /* ------------------------------------------------------------
      * Controller owns LEDs while active
