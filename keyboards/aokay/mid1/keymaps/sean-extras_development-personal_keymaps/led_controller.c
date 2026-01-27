@@ -173,23 +173,17 @@ bool led_update_user(led_t state) {
 /* -- Encoders: while in LED controller modes ------------------------------ */
 bool encoder_update_user(uint8_t index, bool clockwise) {
 
-    bool edit_hue  = (led_controller_get_edit_mode() == LED_EDIT_MODE_HUE);
-    bool edit_sat  = (led_controller_get_edit_mode() == LED_EDIT_MODE_SAT);
-    bool edit_anim = (led_controller_get_edit_mode() == LED_EDIT_MODE_ANIM);
-
-    if (edit_hue || edit_sat || edit_anim) {
+    if (led_controller_get_edit_mode() != LED_EDIT_MODE_NONE) {
         bool left = (index == 0);
 
         if (left) {
-            tap_code(clockwise ? LED_CONTROLLER_LAYER_INC
-                               : LED_CONTROLLER_LAYER_DEC);
+            tap_code(clockwise
+                     ? LED_CONTROLLER_LAYER_INC
+                     : LED_CONTROLLER_LAYER_DEC);
         } else {
-            if      (edit_hue)  tap_code(clockwise ? LED_CONTROLLER_HUE_INC
-                                                   : LED_CONTROLLER_HUE_DEC);
-            else if (edit_sat)  tap_code(clockwise ? LED_CONTROLLER_SAT_INC
-                                                   : LED_CONTROLLER_SAT_DEC);
-            else                tap_code(clockwise ? LED_CONTROLLER_ANIM_INC
-                                                   : LED_CONTROLLER_ANIM_DEC);
+            tap_code(clockwise
+                     ? LED_CONTROLLER_PARAM_INC
+                     : LED_CONTROLLER_PARAM_DEC);
         }
         return false;
     }
@@ -820,6 +814,83 @@ bool led_controller_process(uint16_t keycode, keyrecord_t *record) {
     if (!record->event.pressed) return true;
 
     switch (keycode) {
+
+        case LED_CONTROLLER_PARAM_INC:
+        case LED_CONTROLLER_PARAM_DEC: {
+            if (!active) {
+                sel = 0;
+                first_render = true;
+                active = true;
+                mark_active();
+            }
+
+            bool inc = (keycode == LED_CONTROLLER_PARAM_INC);
+
+            switch (led_controller_get_edit_mode()) {
+
+                case LED_EDIT_MODE_HUE: {
+                    uint8_t target = (sel < LED_CONTROLLER_NUM_LAYERS)
+                                    ? sel
+                                    : LED_CONTROLLER_CAPS_SLOT;
+
+                    work = store[target];
+                    work.v = rgblight_get_val();
+
+                    int step = inc ? RGBLIGHT_HUE_STEP : -RGBLIGHT_HUE_STEP;
+                    work.h = wrap360((int)work.h + step);
+
+                    store[target].h = work.h;
+                    led_controller_dirty = true;
+
+                    set_mask_with_hsv(led_controller_mask_for_sel(sel), work);
+                    break;
+                }
+
+                case LED_EDIT_MODE_SAT: {
+                    uint8_t target = (sel < LED_CONTROLLER_NUM_LAYERS)
+                                    ? sel
+                                    : LED_CONTROLLER_CAPS_SLOT;
+
+                    work = store[target];
+                    work.v = rgblight_get_val();
+
+                    int step = inc ? RGBLIGHT_SAT_STEP : -RGBLIGHT_SAT_STEP;
+                    work.s = clamp255((int)work.s + step);
+
+                    store[target].s = work.s;
+                    led_controller_dirty = true;
+
+                    set_mask_with_hsv(led_controller_mask_for_sel(sel), work);
+                    break;
+                }
+
+                case LED_EDIT_MODE_ANIM: {
+                    if (inc) rgblight_step_noeeprom();
+                    else     rgblight_step_reverse_noeeprom();
+
+                    uint8_t mode = rgblight_get_mode();
+                    uint8_t target = (sel < LED_CONTROLLER_NUM_LAYERS)
+                                    ? sel
+                                    : LED_CONTROLLER_CAPS_SLOT;
+
+                    if (target == LED_CONTROLLER_CAPS_SLOT)
+                        led_controller_set_caps_anim(mode, false);
+                    else
+                        led_controller_set_layer_anim(target, mode, false);
+
+                    led_controller_dirty = true;
+                    led_controller_anim_preview_begin(target, mode);
+                    break;
+                }
+
+                default:
+                    return false;
+            }
+
+            mark_active();
+            return false;
+        }
+
         case LED_CONTROLLER_LAYER_DEC:
         case LED_CONTROLLER_LAYER_INC: {
             if (!active) {

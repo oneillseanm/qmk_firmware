@@ -4,10 +4,10 @@
     "layout": "LAYOUT_all",
     "layers": [
                 [
-                    "KC_ESC", "KC_Q", "KC_W", "KC_E", "KC_R", "KC_T", "KC_Y", "KC_U", "LED_EDIT_HUE", "LED_EDIT_SAT", "LED_EDIT_ANIM", "LED_EDIT_VAL",
+                    "KC_ESC", "KC_Q", "KC_W", "KC_E", "KC_R", "KC_T", "KC_Y", "KC_U", "KC_I", "KC_O", "KC_P", "KC_BACKSPACE",
                     "MT(MOD_LCTL, KC_TAB)", "MT(MOD_LALT, KC_A)", "MT(MOD_LCTL, KC_S)", "MT(MOD_LSFT, KC_D)", "LT(2, KC_F)", "MT(MOD_LGUI, KC_G)", "MT(MOD_RGUI, KC_H)", "LT(1, KC_J)", "MT(MOD_RSFT, KC_K)", "MT(MOD_RCTL, KC_L)", "MT(MOD_RALT, KC_QUOTE)",
                     "KC_LSFT", "KC_Z", "KC_X", "KC_C", "KC_V", "KC_B", "KC_N", "KC_M", "KC_COMM", "KC_DOT", "MT(MOD_RSFT, KC_SLSH)",
-                    "TG(1)", "UG_TOGG", "KC_LALT", "LT(3, KC_ENTER)", "LT(3, KC_ENTER)", "KC_DEL", "LT(3, KC_SPC)", "LT(3, KC_SPC)", "KC_LEFT", "LT(6,KC_DOWN)", "LT(7,KC_RIGHT)"
+                    "TG(11)", "UG_TOGG", "KC_LALT", "LT(3, KC_ENTER)", "LT(3, KC_ENTER)", "KC_DEL", "LT(3, KC_SPC)", "LT(3, KC_SPC)", "KC_LEFT", "LT(6,KC_DOWN)", "LT(7,KC_RIGHT)"
                 ],
                 [
                     "KC_TRNS", "KC_GRAVE", "KC_7", "KC_8", "KC_9", "KC_0", "KC_KP_ASTERISK", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS",
@@ -70,10 +70,10 @@
                     "UG_TOGG", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "LED_CONTROLLER_BOOT_PLAY", "LED_CONTROLLER_BOOT_TOG"
                 ],
                 [
-                    "LED_CONTROLLER_RESET", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS",
+                    "LED_CONTROLLER_RESET", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "LED_EDIT_HUE", "LED_EDIT_SAT", "LED_EDIT_ANIM", "LED_EDIT_VAL",
                     "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS",
                     "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS",
-                    "UG_TOGG", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "LED_CONTROLLER_BOOT_PLAY", "LED_CONTROLLER_BOOT_TOG"
+                    "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "LED_CONTROLLER_BOOT_PLAY", "LED_CONTROLLER_BOOT_TOG"
                 ]
     ],
     "config": {
@@ -115,20 +115,20 @@
           { "ccw": "KC_TRNS", "cw": "KC_TRNS" }
       ],
       [
-          { "ccw": "LED_CONTROLLER_LAYER_DEC", "cw": "LED_CONTROLLER_LAYER_INC" },
-          { "ccw": "LED_CONTROLLER_HUE_DEC", "cw": "LED_CONTROLLER_HUE_INC" }
+          { "ccw": "KC_TRNS", "cw": "KC_TRNS" },
+          { "ccw": "KC_TRNS", "cw": "KC_TRNS" }
+      ],
+      [
+          { "ccw": "KC_TRNS", "cw": "KC_TRNS" },
+          { "ccw": "KC_TRNS", "cw": "KC_TRNS" }
+      ],
+      [
+          { "ccw": "KC_TRNS", "cw": "KC_TRNS" },
+          { "ccw": "KC_TRNS", "cw": "KC_TRNS" }
       ],
       [
           { "ccw": "LED_CONTROLLER_LAYER_DEC", "cw": "LED_CONTROLLER_LAYER_INC" },
-          { "ccw": "LED_CONTROLLER_SAT_DEC", "cw": "LED_CONTROLLER_SAT_INC" }
-      ],
-      [
-          { "ccw": "LED_CONTROLLER_LAYER_DEC", "cw": "LED_CONTROLLER_LAYER_INC" },
-          { "ccw": "LED_CONTROLLER_ANIM_DEC", "cw": "LED_CONTROLLER_ANIM_INC" }
-      ],
-      [
-          { "ccw": "UG_VALD", "cw": "UG_VALU" },
-          { "ccw": "UG_VALD", "cw": "UG_VALU" }
+          { "ccw": "LED_CONTROLLER_PARAM_DEC", "cw": "LED_CONTROLLER_PARAM_INC" }
       ]
    ]
 
