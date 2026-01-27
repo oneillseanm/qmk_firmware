@@ -20,14 +20,14 @@
 
 
 #include QMK_KEYBOARD_H
-#include "config.h"
-#include "led_controller.h"
 #include "mid1_custom_keycodes.h"
+#include "led_controller.h"
 #include "eeconfig.h"
-#include <avr/eeprom.h>
-#include "rgblight.h"
-#include "quantum.h"
-#include "keymap_defines.h"
+
+#ifdef RGBLIGHT_ENABLE
+#    include "rgblight.h"
+#    include <avr/eeprom.h>
+#endif
 
 static inline uint8_t led_controller_slot_to_led(uint8_t slot);
 

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "mid1_custom_keycodes.h"
+
 /* do not include unneeded animations */
 #undef RGBLIGHT_EFFECT_SNAKE
 #undef RGBLIGHT_EFFECT_CHRISTMAS

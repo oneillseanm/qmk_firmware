@@ -1,17 +1,13 @@
 MCU = atmega32u4
 
-FOCUS_TIMER_ENABLE = no
+FOCUS_TIMER_ENABLE = 0
 RGBLIGHT_ENABLE = yes
+MOUSEKEY_ENABLE = no
 
 ifeq ($(FOCUS_TIMER_ENABLE),yes)
     SRC += focus_timer.c
 endif
 
-OPT_DEFS += -DFOCUS_TIMER_ENABLE=$(FOCUS_TIMER_ENABLE)
-
 SRC += led_controller.c
 
-OPT_DEFS += -include mid1_custom_keycodes.h
-OPT_DEFS += -include keymap_defines.h
-
-MOUSEKEY_ENABLE = no
+OPT_DEFS += -DFOCUS_TIMER_ENABLE=$(FOCUS_TIMER_ENABLE)

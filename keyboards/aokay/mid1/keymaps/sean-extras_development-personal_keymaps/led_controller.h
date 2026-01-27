@@ -1,10 +1,8 @@
 #pragma once
-
 #include "quantum.h"
 
-#ifdef RGBLIGHT_ENABLE
-#    include "rgblight.h"
-#endif
+bool led_controller_process_keycode(uint16_t keycode, keyrecord_t *record);
+void led_controller_task(void);
 
 /* -- LED controller core -------------------------------------------------- */
 

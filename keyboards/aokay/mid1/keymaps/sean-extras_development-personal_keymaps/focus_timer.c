@@ -1,11 +1,9 @@
-#include "focus_timer.h"
-
-#if defined(FOCUS_TIMER_ENABLE) && (FOCUS_TIMER_ENABLE == yes)
-
+#if FOCUS_TIMER_ENABLE
+#include QMK_KEYBOARD_H
+#include "mid1_custom_keycodes.h"
 #include "quantum.h"
 #include "led_controller.h"
-#include "mid1_custom_keycodes.h"
-#include "keymap_defines.h"
+#include "focus_timer.h"
 
 
 /* -- Config (tweak if needed) --------------------------------------------- */
