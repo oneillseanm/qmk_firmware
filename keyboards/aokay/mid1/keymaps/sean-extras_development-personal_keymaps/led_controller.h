@@ -2,11 +2,11 @@
 #include "quantum.h"
 
 typedef enum {
-    LED_EDIT_NONE = 0,
-    LED_EDIT_HUE,
-    LED_EDIT_SAT,
-    LED_EDIT_VAL,
-    LED_EDIT_ANIM,
+    LED_EDIT_MODE_NONE = 0,
+    LED_EDIT_MODE_HUE,
+    LED_EDIT_MODE_SAT,
+    LED_EDIT_MODE_VAL,
+    LED_EDIT_MODE_ANIM,
 } led_edit_mode_t;
 
 void led_controller_set_edit_mode(led_edit_mode_t mode);

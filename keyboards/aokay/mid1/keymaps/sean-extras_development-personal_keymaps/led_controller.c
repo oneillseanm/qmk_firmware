@@ -29,11 +29,9 @@
 #    include <avr/eeprom.h>
 #endif
 
+static led_edit_mode_t current_edit_mode = LED_EDIT_MODE_NONE;
+
 static inline uint8_t led_controller_slot_to_led(uint8_t slot);
-
-static void boot_anim_load_config(void);
-
-static led_edit_mode_t current_edit_mode = LED_EDIT_NONE;
 
 void led_controller_set_edit_mode(led_edit_mode_t mode) {
     current_edit_mode = mode;
@@ -42,6 +40,8 @@ void led_controller_set_edit_mode(led_edit_mode_t mode) {
 led_edit_mode_t led_controller_get_edit_mode(void) {
     return current_edit_mode;
 }
+
+static void boot_anim_load_config(void);
 
 #ifndef FOCUS_TIMER_ENABLE
 #    define FOCUS_TIMER_ENABLE 0
@@ -308,33 +308,33 @@ bool led_controller_process_keycode(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case LED_EDIT_HUE:
             if (record->event.pressed) {
-                led_controller_set_edit_mode(LED_EDIT_HUE);
+                led_controller_set_edit_mode(LED_EDIT_MODE_HUE);
             } else {
-                led_controller_set_edit_mode(LED_EDIT_NONE);
+                led_controller_set_edit_mode(LED_EDIT_MODE_NONE);
             }
             return false;
 
         case LED_EDIT_SAT:
             if (record->event.pressed) {
-                led_controller_set_edit_mode(LED_EDIT_SAT);
+                led_controller_set_edit_mode(LED_EDIT_MODE_SAT);
             } else {
-                led_controller_set_edit_mode(LED_EDIT_NONE);
+                led_controller_set_edit_mode(LED_EDIT_MODE_NONE);
             }
             return false;
 
         case LED_EDIT_VAL:
             if (record->event.pressed) {
-                led_controller_set_edit_mode(LED_EDIT_VAL);
+                led_controller_set_edit_mode(LED_EDIT_MODE_VAL);
             } else {
-                led_controller_set_edit_mode(LED_EDIT_NONE);
+                led_controller_set_edit_mode(LED_EDIT_MODE_NONE);
             }
             return false;
 
         case LED_EDIT_ANIM:
             if (record->event.pressed) {
-                led_controller_set_edit_mode(LED_EDIT_ANIM);
+                led_controller_set_edit_mode(LED_EDIT_MODE_ANIM);
             } else {
-                led_controller_set_edit_mode(LED_EDIT_NONE);
+                led_controller_set_edit_mode(LED_EDIT_MODE_NONE);
             }
             return false;
     }
