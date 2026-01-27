@@ -22,6 +22,11 @@ enum mid1_keycodes {
     LED_CONTROLLER_RESET,
     LED_CONTROLLER_BOOT_TOG,
     LED_CONTROLLER_BOOT_PLAY,
+
+    LED_EDIT_HUE,
+    LED_EDIT_SAT,
+    LED_EDIT_VAL,
+    LED_EDIT_ANIM,
 };
 
 #endif

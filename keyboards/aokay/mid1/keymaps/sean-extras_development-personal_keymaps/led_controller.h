@@ -1,6 +1,17 @@
 #pragma once
 #include "quantum.h"
 
+typedef enum {
+    LED_EDIT_NONE = 0,
+    LED_EDIT_HUE,
+    LED_EDIT_SAT,
+    LED_EDIT_VAL,
+    LED_EDIT_ANIM,
+} led_edit_mode_t;
+
+void led_controller_set_edit_mode(led_edit_mode_t mode);
+led_edit_mode_t led_controller_get_edit_mode(void);
+
 bool led_controller_process_keycode(uint16_t keycode, keyrecord_t *record);
 void led_controller_task(void);
 

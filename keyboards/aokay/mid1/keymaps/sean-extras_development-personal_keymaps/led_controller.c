@@ -33,6 +33,16 @@ static inline uint8_t led_controller_slot_to_led(uint8_t slot);
 
 static void boot_anim_load_config(void);
 
+static led_edit_mode_t current_edit_mode = LED_EDIT_NONE;
+
+void led_controller_set_edit_mode(led_edit_mode_t mode) {
+    current_edit_mode = mode;
+}
+
+led_edit_mode_t led_controller_get_edit_mode(void) {
+    return current_edit_mode;
+}
+
 #ifndef FOCUS_TIMER_ENABLE
 #    define FOCUS_TIMER_ENABLE 0
 #endif
@@ -294,6 +304,40 @@ static void led_controller_set_all_preview_leds(HSV16 hsv) {
 }
 
 bool led_controller_process_keycode(uint16_t keycode, keyrecord_t *record) {
+
+    switch (keycode) {
+        case LED_EDIT_HUE:
+            if (record->event.pressed) {
+                led_controller_set_edit_mode(LED_EDIT_HUE);
+            } else {
+                led_controller_set_edit_mode(LED_EDIT_NONE);
+            }
+            return false;
+
+        case LED_EDIT_SAT:
+            if (record->event.pressed) {
+                led_controller_set_edit_mode(LED_EDIT_SAT);
+            } else {
+                led_controller_set_edit_mode(LED_EDIT_NONE);
+            }
+            return false;
+
+        case LED_EDIT_VAL:
+            if (record->event.pressed) {
+                led_controller_set_edit_mode(LED_EDIT_VAL);
+            } else {
+                led_controller_set_edit_mode(LED_EDIT_NONE);
+            }
+            return false;
+
+        case LED_EDIT_ANIM:
+            if (record->event.pressed) {
+                led_controller_set_edit_mode(LED_EDIT_ANIM);
+            } else {
+                led_controller_set_edit_mode(LED_EDIT_NONE);
+            }
+            return false;
+    }
 
     if (!led_controller_process(keycode, record)) return false;
 
