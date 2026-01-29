@@ -51,7 +51,7 @@ void    led_controller_set_caps_hsv(HSV16 hsv);
 uint8_t led_controller_get_caps_anim(void);
 void    led_controller_set_caps_anim(uint8_t mode, bool persist);
 
-/* -- LED controller preview / startup LEDs -------------------------------- */
+/* LED controller preview / startup LEDs */
 
 /* Number of LEDs used for preview + startup animation */
 #ifndef LED_CONTROLLER_PREVIEW_LEDS
@@ -63,7 +63,7 @@ void    led_controller_set_caps_anim(uint8_t mode, bool persist);
 #    define LED_CONTROLLER_LEDS_REVERSED 1
 #endif
 
-/* -- HSV helpers (match 3-arg macros like HSV_MID1ORANGE -> h,s,v) -------- */
+/* HSV helpers (match 3-arg macros like HSV_MID1ORANGE -> h,s,v) */
 
 #ifndef H_OF
 #    define H_OF(h, s, v) (h)

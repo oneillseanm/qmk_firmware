@@ -25,6 +25,55 @@
 #    include <avr/eeprom.h>
 #endif
 
+#define LED_CONTROLLER_EEPROM_MAGIC 0xC1
+
+/* Configuration */
+
+/* Structural requirements */
+#ifndef RGBLIGHT_ENABLE
+#    error "LED controller requires RGBLIGHT_ENABLE."
+#endif
+
+/* Style targets: keyboard layers plus a Caps slot. */
+#ifndef LED_CONTROLLER_NUM_LAYERS
+#    define LED_CONTROLLER_NUM_LAYERS                    16
+#endif
+
+/* Caps styling slot (treated as a style target). */
+#define LED_CONTROLLER_CAPS_SLOT         LED_CONTROLLER_NUM_LAYERS
+#define LED_CONTROLLER_NUM_STYLE_TARGETS (LED_CONTROLLER_NUM_LAYERS + 1)
+
+/* Behavior / policy */
+#define LED_CONTROLLER_IDLE_TIMEOUT_MS                 4000
+#define LED_CONTROLLER_TRIPLE_BLINK_MS                  450
+#define LED_CONTROLLER_SAT_STEP                          12
+
+/* Layout */
+#define LED_CONTROLLER_PREVIEW_LEDS                       8
+#define LED_CONTROLLER_PREVIEW_OFFSET                     0
+#define LED_CONTROLLER_LEDS_REVERSED                      1
+
+/* Preview-only dimming for layers with inherited style */
+#define LED_CONTROLLER_INHERITED_DIM_SCALE              70  /* 0–255 */
+
+/* Base layer (layer 0) defaults */
+#define LED_CONTROLLER_BASE_H                            15
+#define LED_CONTROLLER_BASE_S                           255
+#define LED_CONTROLLER_BASE_V                           255
+#define LED_CONTROLLER_BASE_ANIM RGBLIGHT_MODE_STATIC_LIGHT
+
+/* Reset confirmation blink */
+#define LED_CONTROLLER_RESET_BLINK_COUNT                  2
+#define LED_CONTROLLER_RESET_BLINK_MS                   120
+
+#define EE_BASE_H_SHIFT   0
+#define EE_BASE_S_SHIFT   9
+#define EE_BASE_ANIM_SHIFT 17
+
+#define EE_BASE_H_MASK    0x1FFu
+#define EE_BASE_S_MASK    0xFFu
+#define EE_BASE_ANIM_MASK 0x7Fu
+
 static led_edit_mode_t current_edit_mode = LED_EDIT_MODE_NONE;
 
 static inline uint8_t led_controller_slot_to_led(uint8_t slot);
@@ -38,6 +87,12 @@ led_edit_mode_t led_controller_get_edit_mode(void) {
 }
 
 static void boot_anim_load_config(void);
+
+static void led_controller_anim_preview_end(void);
+
+static void led_controller_anim_preview_end(void) {
+    led_controller_anim_preview_cancel();
+}
 
 #ifndef FOCUS_TIMER_ENABLE
 #    define FOCUS_TIMER_ENABLE 0
@@ -69,6 +124,10 @@ static uint32_t startup_anim_started_at   = 0;
 
 static bool caps_active    = false;
 static bool caps_suspended = false;
+
+static bool style_set[LED_CONTROLLER_NUM_STYLE_TARGETS];
+
+static HSV16 store[LED_CONTROLLER_NUM_STYLE_TARGETS];
 
 static void boot_anim_load_config(void) {
 #ifdef EE_LED_CONTROLLER_BOOT_ANIM_ENABLED
@@ -216,7 +275,8 @@ static void startup_anim_tick(void) {
     uint8_t pos_rev = (uint8_t)(STARTUP_STEPS_PER_ROLL - 1u - pos);  /* reverse direction */
 
     uint8_t target = rgblight_get_val();
-    HSV16 hsv = (HSV16){ H_OF_TUPLE(HSV_MID1ORANGE), S_OF_TUPLE(HSV_MID1ORANGE), 0 };
+    HSV16 hsv = store[0];
+    hsv.v = 0;
 
     if (roll < (STARTUP_ROLL_COUNT - 1u)) {
         uint16_t base_scaled = (uint16_t)target * (uint16_t)roll / (STARTUP_ROLL_COUNT); /* 0.. ~7/8 */
@@ -321,17 +381,15 @@ bool led_controller_process_keycode(uint16_t keycode, keyrecord_t *record) {
             );
         #endif
 
-            HSV16 hsv16 = (HSV16){
-                H_OF_TUPLE(HSV_MID1ORANGE),
-                S_OF_TUPLE(HSV_MID1ORANGE),
-                rgblight_get_val()
-            };
+            HSV16 hsv = store[0];
+            hsv.v = rgblight_get_val();
 
             if (!led_controller_boot_anim_enabled) {
-                hsv16.v = 0;
+                hsv.v = 0;
             }
 
-            led_controller_set_all_preview_leds(hsv16);
+            led_controller_set_all_preview_leds(hsv);
+
             return false;
         }
 
@@ -346,51 +404,24 @@ bool led_controller_process_keycode(uint16_t keycode, keyrecord_t *record) {
     return true;
 }
 
-#ifndef RGBLIGHT_ENABLE
-#    error "LED controller requires RGBLIGHT_ENABLE."
-#endif
-
-/* Style targets: keyboard layers plus a Caps slot. */
-#ifndef LED_CONTROLLER_NUM_LAYERS
-#    define LED_CONTROLLER_NUM_LAYERS 16
-#endif
-
-/* Caps styling slot (treated as a style target). */
-#define LED_CONTROLLER_CAPS_SLOT         LED_CONTROLLER_NUM_LAYERS
-#define LED_CONTROLLER_NUM_STYLE_TARGETS (LED_CONTROLLER_NUM_LAYERS + 1)
-
-#ifndef LED_CONTROLLER_IDLE_TIMEOUT_MS
-#    define LED_CONTROLLER_IDLE_TIMEOUT_MS 4000
-#endif
-#ifndef LED_CONTROLLER_TRIPLE_BLINK_MS
-#    define LED_CONTROLLER_TRIPLE_BLINK_MS 450
-#endif
-#ifndef RGBLIGHT_SAT_STEP
-#    define RGBLIGHT_SAT_STEP 12
-#endif
-#ifndef HSV_LED_CONTROLLER_DEFAULT
-#    define HSV_LED_CONTROLLER_DEFAULT 0, 0, 255
-#endif
-
-#ifndef LED_CONTROLLER_PREVIEW_LEDS
-#    define LED_CONTROLLER_PREVIEW_LEDS 8
-#endif
-
-#ifndef LED_CONTROLLER_PREVIEW_OFFSET
-#    define LED_CONTROLLER_PREVIEW_OFFSET 0
-#endif
-
-#ifndef LED_CONTROLLER_LEDS_REVERSED
-#    define LED_CONTROLLER_LEDS_REVERSED 1
-#endif
+static bool style_set[LED_CONTROLLER_NUM_STYLE_TARGETS];
 
 static inline uint8_t led_controller_slot_to_led(uint8_t slot) {
     return LED_CONTROLLER_PREVIEW_OFFSET + (LED_CONTROLLER_LEDS_REVERSED ? (LED_CONTROLLER_PREVIEW_LEDS - 1u - slot) : slot);
 }
 
-static HSV16   store[LED_CONTROLLER_NUM_STYLE_TARGETS];
 static uint8_t anim_store[LED_CONTROLLER_NUM_STYLE_TARGETS];
 static bool led_controller_dirty = false;
+
+static inline HSV16 led_controller_resolve_hsv(uint8_t target, bool *inherited) {
+    if (target != 0 && !style_set[target]) {
+        if (inherited) *inherited = true;
+        return store[0];
+    }
+
+    if (inherited) *inherited = false;
+    return store[target];
+}
 
 static inline uint8_t led_controller_breathe_delta(uint16_t period_ms, uint8_t amp) {
     uint32_t t = timer_read32() % (period_ms ? period_ms : 1);
@@ -424,7 +455,7 @@ static inline void led_controller_anim_preview_begin(uint8_t layer, uint8_t mode
     rgblight_set_effect_range(0, RGBLIGHT_LED_COUNT);
 
     /* Set base HSV so animations inherit hue/sat. */
-    HSV16 c = store[layer];
+    HSV16 c = led_controller_resolve_hsv(layer, NULL);
     c.v = rgblight_get_val();
 
     rgblight_sethsv_noeeprom(c.h, c.s, c.v);
@@ -514,66 +545,40 @@ static void set_mask_with_hsv(uint8_t mask, HSV16 s) {
     }
 }
 
-/*
- * EEPROM layout: [key][HSV slots...][anim slots...] for all style targets.
- * EEPROM stores style targets, including real layers and Caps slot
- */
-
 #define LED_CONTROLLER_SLOT_BYTES 4u
 static void ee_save(void) {
-#ifdef EECONFIG_USER
-    eeprom_update_word((void *)EECONFIG_USER, LED_CONTROLLER_EE_KEY);
-    uint16_t base = (uint16_t)EECONFIG_USER + 2;
+    uint32_t v = 0;
 
-    for (uint8_t i = 0; i < LED_CONTROLLER_NUM_STYLE_TARGETS; i++) {
-        uint16_t off = base + (uint16_t)i * LED_CONTROLLER_SLOT_BYTES;
-        eeprom_update_word((void *)(uintptr_t)(off + 0), store[i].h);
-        eeprom_update_byte((void *)(uintptr_t)(off + 2), store[i].s);
-        eeprom_update_byte((void *)(uintptr_t)(off + 3), store[i].v);
-    }
+    v |= ((uint32_t)(store[0].h & EE_BASE_H_MASK)) << EE_BASE_H_SHIFT;
+    v |= ((uint32_t)(store[0].s & EE_BASE_S_MASK)) << EE_BASE_S_SHIFT;
+    v |= ((uint32_t)(anim_store[0] & EE_BASE_ANIM_MASK)) << EE_BASE_ANIM_SHIFT;
 
-    uint16_t anim_base =
-        base + (uint16_t)LED_CONTROLLER_NUM_STYLE_TARGETS * LED_CONTROLLER_SLOT_BYTES;
-
-    for (uint8_t i = 0; i < LED_CONTROLLER_NUM_STYLE_TARGETS; i++) {
-        eeprom_update_byte((void *)(uintptr_t)(anim_base + i), anim_store[i]);
-    }
-#else
-#endif
+    eeconfig_update_user(v);
 }
 
 static bool ee_load(void) {
-#ifdef EECONFIG_USER
-    if (eeprom_read_word((void *)EECONFIG_USER) != LED_CONTROLLER_EE_KEY)
-        return false;
+    uint32_t v = eeconfig_read_user();
+    if (v == 0) return false;
 
-    uint16_t base = (uint16_t)EECONFIG_USER + 2;
+    store[0].h = (v >> EE_BASE_H_SHIFT) & EE_BASE_H_MASK;
+    store[0].s = (v >> EE_BASE_S_SHIFT) & EE_BASE_S_MASK;
+    store[0].v = LED_CONTROLLER_BASE_V;
 
-    for (uint8_t i = 0; i < LED_CONTROLLER_NUM_STYLE_TARGETS; i++) {
-        uint16_t off = base + (uint16_t)i * LED_CONTROLLER_SLOT_BYTES;
-        store[i].h = eeprom_read_word((void *)(uintptr_t)(off + 0));
-        store[i].s = eeprom_read_byte((void *)(uintptr_t)(off + 2));
-    }
+    anim_store[0] = (v >> EE_BASE_ANIM_SHIFT) & EE_BASE_ANIM_MASK;
+    if (anim_store[0] == 0)
+        anim_store[0] = LED_CONTROLLER_BASE_ANIM;
 
-    uint16_t anim_base =
-        base + (uint16_t)LED_CONTROLLER_NUM_STYLE_TARGETS * LED_CONTROLLER_SLOT_BYTES;
-
-    for (uint8_t i = 0; i < LED_CONTROLLER_NUM_STYLE_TARGETS; i++) {
-        anim_store[i] =
-            eeprom_read_byte((void *)(uintptr_t)(anim_base + i));
-        if (anim_store[i] == 0)
-            anim_store[i] = RGBLIGHT_MODE_STATIC_LIGHT;
+    style_set[0] = true;
+    for (uint8_t i = 1; i < LED_CONTROLLER_NUM_STYLE_TARGETS; i++) {
+        style_set[i] = false;
     }
 
     return true;
-#else
-    return false;
-#endif
 }
 
 HSV16 led_controller_get_layer_hsv(uint8_t layer) {
     if (layer >= LED_CONTROLLER_NUM_LAYERS) layer = 0;
-    return store[layer];
+    return led_controller_resolve_hsv(layer, NULL);
 }
 
 void led_controller_set_layer_hsv(uint8_t layer, HSV16 hsv) {
@@ -620,64 +625,50 @@ void led_controller_preview_draw(uint8_t layer, HSV16 hsv) {
     }
 }
 
-#ifndef HSV_MID1ORANGE
-#    define HSV_MID1ORANGE  15, 255, 255
-#endif
-#ifndef HSV_MID1BLUE
-#    define HSV_MID1BLUE   180, 255, 255
-#endif
-#ifndef HSV_MID1GREEN
-#    define HSV_MID1GREEN   85, 255, 255
-#endif
-#ifndef HSV_MID1PURPLE
-#    define HSV_MID1PURPLE 200, 255, 255
-#endif
-#ifndef HSV_MID1RED
-#    define HSV_MID1RED      0, 255, 255
-#endif
-#ifndef HSV_MID1SAGE
-#    define HSV_MID1SAGE   110, 120, 255
-#endif
-
 static void seed_defaults(void) {
-    const uint8_t v = rgblight_get_val();
-    const HSV16 table[16] = {
-        { H_OF_TUPLE(HSV_MID1ORANGE),  S_OF_TUPLE(HSV_MID1ORANGE),  v },
-        { H_OF_TUPLE(HSV_MID1BLUE),    S_OF_TUPLE(HSV_MID1BLUE),    v },
-        { H_OF_TUPLE(HSV_MID1GREEN),   S_OF_TUPLE(HSV_MID1GREEN),   v },
-        { H_OF_TUPLE(HSV_MID1PURPLE),  S_OF_TUPLE(HSV_MID1PURPLE),  v },
-        { H_OF_TUPLE(HSV_MID1RED),     S_OF_TUPLE(HSV_MID1RED),     v },
-        { H_OF_TUPLE(HSV_MID1RED),     S_OF_TUPLE(HSV_MID1RED),     v },
-        { H_OF_TUPLE(HSV_MID1SAGE),    S_OF_TUPLE(HSV_MID1SAGE),    v },
-        { 0,                           0,                           v }, /* white */
-        { H_OF_TUPLE(HSV_LED_CONTROLLER_DEFAULT),  S_OF_TUPLE(HSV_LED_CONTROLLER_DEFAULT),  v },
-        { H_OF_TUPLE(HSV_LED_CONTROLLER_DEFAULT),  S_OF_TUPLE(HSV_LED_CONTROLLER_DEFAULT),  v },
-        { H_OF_TUPLE(HSV_LED_CONTROLLER_DEFAULT),  S_OF_TUPLE(HSV_LED_CONTROLLER_DEFAULT),  v },
-        { H_OF_TUPLE(HSV_LED_CONTROLLER_DEFAULT),  S_OF_TUPLE(HSV_LED_CONTROLLER_DEFAULT),  v },
-    };
-    for (uint8_t i = 0; i < 16; i++) store[i] = table[i];
-    for (uint8_t i = 0; i < LED_CONTROLLER_NUM_LAYERS; i++) anim_store[i] = RGBLIGHT_MODE_STATIC_LIGHT;
-    store[LED_CONTROLLER_CAPS_SLOT].h = store[0].h;
-    store[LED_CONTROLLER_CAPS_SLOT].s = store[0].s;
-    store[LED_CONTROLLER_CAPS_SLOT].v = v;
+    /* Clear everything to the "unstyled" marker (s==0 && v==0). */
+    for (uint8_t i = 0; i < LED_CONTROLLER_NUM_STYLE_TARGETS; i++) {
+        store[i].h = 0;
+        store[i].s = 0;
+        store[i].v = 0;
+        anim_store[i] = RGBLIGHT_MODE_STATIC_LIGHT;
+        style_set[i] = false;
+    }
+
+    /* Base layer is always styled and defines the global default. */
+    store[0].h = LED_CONTROLLER_BASE_H;
+    store[0].s = LED_CONTROLLER_BASE_S;
+    store[0].v = LED_CONTROLLER_BASE_V;
+    anim_store[0] = LED_CONTROLLER_BASE_ANIM;
+    style_set[0] = true;
+
+    /* Caps slot: defaults to base color + a visible animation. */
+    store[LED_CONTROLLER_CAPS_SLOT] = store[0];
     anim_store[LED_CONTROLLER_CAPS_SLOT] = RGBLIGHT_MODE_RAINBOW_SWIRL;
+    style_set[LED_CONTROLLER_CAPS_SLOT] = true;
+
     ee_save();
 }
 
 void led_controller_init(void) {
+    /* Load persisted state; if absent, seed defaults (and persist them). */
     if (!ee_load()) {
         seed_defaults();
-    } else {
-        uint8_t v = rgblight_get_val();
+        /* ee_load() is now guaranteed to succeed after seeding. */
+        (void)ee_load();
+    }
 
-        if (store[LED_CONTROLLER_CAPS_SLOT].s == 0 && store[LED_CONTROLLER_CAPS_SLOT].v == 0) {
-            store[LED_CONTROLLER_CAPS_SLOT].h = store[0].h;
-            store[LED_CONTROLLER_CAPS_SLOT].s = store[0].s;
-            store[LED_CONTROLLER_CAPS_SLOT].v = v;
-        }
-        if (anim_store[LED_CONTROLLER_CAPS_SLOT] == 0) {
-            anim_store[LED_CONTROLLER_CAPS_SLOT] = RGBLIGHT_MODE_RAINBOW_SWIRL;
-        }
+    /* Base layer is always styled (and may have been user-edited). */
+    style_set[0] = true;
+
+    /* If Caps slot is unstyled/uninitialized, mirror base and set a default anim. */
+    if (store[LED_CONTROLLER_CAPS_SLOT].s == 0 && store[LED_CONTROLLER_CAPS_SLOT].v == 0) {
+        store[LED_CONTROLLER_CAPS_SLOT] = store[0];
+        store[LED_CONTROLLER_CAPS_SLOT].v = rgblight_get_val();
+        style_set[LED_CONTROLLER_CAPS_SLOT] = true;
+    }
+    if (anim_store[LED_CONTROLLER_CAPS_SLOT] == 0) {
+        anim_store[LED_CONTROLLER_CAPS_SLOT] = RGBLIGHT_MODE_RAINBOW_SWIRL;
     }
 }
 
@@ -707,7 +698,8 @@ void led_controller_ensure_active(void) {
 
         rgblight_set_effect_range(0, 0);
 
-        HSV16 s = store[sel];
+        uint8_t target = (sel < LED_CONTROLLER_NUM_LAYERS) ? sel : LED_CONTROLLER_CAPS_SLOT;
+        HSV16 s = led_controller_resolve_hsv(target, NULL);
         s.v = rgblight_get_val();
         set_mask_with_hsv(led_controller_mask_for_sel(sel), s);
     }
@@ -733,17 +725,17 @@ void led_controller_render_task(void) {
                        ? sel
                        : LED_CONTROLLER_CAPS_SLOT;
 
-    HSV16 s = store[target];
-
-    /* V follows global brightness (optionally with breathe). */
     uint8_t base_v = rgblight_get_val();
+
+    bool inherited = false;
+    HSV16 s = led_controller_resolve_hsv(target, &inherited);
+    s.v = base_v;
+
 #if LED_CONTROLLER_UI_BREATHE
     uint8_t amp   = (uint8_t)((base_v >> 2) + 8);
     uint8_t delta = led_controller_breathe_delta(1100, amp);
-    uint16_t vv   = (uint16_t)base_v + delta;
+    uint16_t vv   = (uint16_t)s.v + delta;
     s.v = (vv > 255) ? 255 : (uint8_t)vv;
-#else
-    s.v = base_v;
 #endif
 
     set_mask_with_hsv(led_controller_mask_for_sel(sel), s);
@@ -771,14 +763,22 @@ bool led_controller_process(uint16_t keycode, keyrecord_t *record) {
                                     ? sel
                                     : LED_CONTROLLER_CAPS_SLOT;
 
-                    work = store[target];
+                    bool inherited = false;
+                    work = led_controller_resolve_hsv(target, &inherited);
                     work.v = rgblight_get_val();
-
+                    
                     int step = inc ? RGBLIGHT_HUE_STEP : -RGBLIGHT_HUE_STEP;
                     work.h = wrap360((int)work.h + step);
-
-                    store[target].h = work.h;
+                    
+                    if (!style_set[target]) {
+                        store[target] = work;
+                        style_set[target] = true;
+                    } else {
+                        store[target].h = work.h;
+                    }
                     led_controller_dirty = true;
+                    ee_save();
+                    led_controller_dirty = false;
 
                     set_mask_with_hsv(led_controller_mask_for_sel(sel), work);
                     break;
@@ -789,14 +789,22 @@ bool led_controller_process(uint16_t keycode, keyrecord_t *record) {
                                     ? sel
                                     : LED_CONTROLLER_CAPS_SLOT;
 
-                    work = store[target];
+                    bool inherited = false;
+                    work = led_controller_resolve_hsv(target, &inherited);
                     work.v = rgblight_get_val();
-
+                    
                     int step = inc ? RGBLIGHT_SAT_STEP : -RGBLIGHT_SAT_STEP;
                     work.s = clamp255((int)work.s + step);
-
-                    store[target].s = work.s;
+                    
+                    if (!style_set[target]) {
+                        store[target] = work;
+                        style_set[target] = true;
+                    } else {
+                        store[target].s = work.s;
+                    }
                     led_controller_dirty = true;
+                    ee_save();
+                    led_controller_dirty = false;
 
                     set_mask_with_hsv(led_controller_mask_for_sel(sel), work);
                     break;
@@ -816,8 +824,15 @@ bool led_controller_process(uint16_t keycode, keyrecord_t *record) {
                     else
                         led_controller_set_layer_anim(target, mode, false);
 
-                    led_controller_dirty = true;
                     led_controller_anim_preview_begin(target, mode);
+
+                    if (!style_set[target]) {
+                        store[target] = store[0];
+                        style_set[target] = true;
+                    }
+                    led_controller_dirty = true;
+                    ee_save();
+                    led_controller_dirty = false;
                     break;
                 }
 
@@ -842,7 +857,7 @@ bool led_controller_process(uint16_t keycode, keyrecord_t *record) {
 
             uint8_t target = (sel < LED_CONTROLLER_NUM_LAYERS) ? sel : LED_CONTROLLER_CAPS_SLOT;
 
-            HSV16 s = store[target];
+            HSV16 s = led_controller_resolve_hsv(target, NULL);
             s.v = rgblight_get_val();
 
             set_mask_with_hsv(led_controller_mask_for_sel(sel), s);
@@ -853,16 +868,42 @@ bool led_controller_process(uint16_t keycode, keyrecord_t *record) {
         case LED_CONTROLLER_RESET: {
             seed_defaults();
 
-            uint8_t target = (sel < LED_CONTROLLER_NUM_LAYERS) ? sel : LED_CONTROLLER_CAPS_SLOT;
+            for (uint8_t i = 1; i < LED_CONTROLLER_NUM_STYLE_TARGETS; i++) {
+                style_set[i] = false;
+            }
+            style_set[0] = true;
 
-            HSV16 s = store[target];
-            s.v = rgblight_get_val();
 
-            set_mask_with_hsv(led_controller_mask_for_sel(sel), s);
-            mark_active();
+            sel = 0;
+            active = false;
+            led_controller_anim_preview_end();
+            led_controller_dirty = false;
+
+            /* Blink confirmation */
+            HSV16 base = store[0];
+            base.v = rgblight_get_val();
+
+            for (uint8_t i = 0; i < LED_CONTROLLER_RESET_BLINK_COUNT; i++) {
+                HSV16 off = base;
+                off.v = 0;
+                set_mask_with_hsv(led_controller_mask_for_sel(0), off);
+                wait_ms(LED_CONTROLLER_RESET_BLINK_MS);
+
+                set_mask_with_hsv(led_controller_mask_for_sel(0), base);
+                wait_ms(LED_CONTROLLER_RESET_BLINK_MS);
+            }
+
+            /* Return LED ownership to rgblight */
+            rgblight_set_effect_range(0, RGBLIGHT_LED_COUNT);
+
+            /* Restore base layer */
+            rgblight_mode_noeeprom(anim_store[0]);
+            rgblight_sethsv_noeeprom(store[0].h, store[0].s, rgblight_get_val());
+
             return false;
         }
     }
+
     return true;
 }
 
@@ -882,7 +923,7 @@ void led_controller_task(void) {
     uint8_t layer = get_highest_layer(layer_state);
 
         /* Global RGB is allowed here because controller is NOT active */
-        HSV16  c     = led_controller_get_layer_hsv(layer);
+        HSV16 c      = led_controller_resolve_hsv(layer, NULL);
         uint8_t v    = rgblight_get_val();
         uint8_t mode = led_controller_get_layer_anim(layer);
 
