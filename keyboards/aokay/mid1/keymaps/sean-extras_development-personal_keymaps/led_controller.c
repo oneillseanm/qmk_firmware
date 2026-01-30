@@ -66,13 +66,13 @@
 #define LED_CONTROLLER_RESET_BLINK_COUNT                  2
 #define LED_CONTROLLER_RESET_BLINK_MS                   120
 
-#define EE_BASE_H_SHIFT   0
-#define EE_BASE_S_SHIFT   9
+#define EE_BASE_H_SHIFT    0
+#define EE_BASE_S_SHIFT    9
 #define EE_BASE_ANIM_SHIFT 17
 
-#define EE_BASE_H_MASK    0x1FFu
-#define EE_BASE_S_MASK    0xFFu
-#define EE_BASE_ANIM_MASK 0x7Fu
+#define EE_BASE_H_MASK     0x1FFu
+#define EE_BASE_S_MASK     0xFFu
+#define EE_BASE_ANIM_MASK  0x7Fu
 
 static led_edit_mode_t current_edit_mode = LED_EDIT_MODE_NONE;
 
@@ -768,7 +768,7 @@ bool led_controller_process(uint16_t keycode, keyrecord_t *record) {
                     work.v = rgblight_get_val();
                     
                     int step = inc ? RGBLIGHT_HUE_STEP : -RGBLIGHT_HUE_STEP;
-                    work.h = wrap360((int)work.h + step);
+                    work.h = (uint8_t)((uint8_t)work.h + step);
                     
                     if (!style_set[target]) {
                         store[target] = work;
