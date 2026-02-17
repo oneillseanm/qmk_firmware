@@ -836,6 +836,22 @@ bool led_controller_process(uint16_t keycode, keyrecord_t *record) {
                     break;
                 }
 
+                case LED_EDIT_MODE_VAL: {
+                    int step = inc ? RGBLIGHT_VAL_STEP : -RGBLIGHT_VAL_STEP;
+                    uint8_t v = clamp255((int)rgblight_get_val() + step);
+
+                    rgblight_sethsv_noeeprom(rgblight_get_hue(), rgblight_get_sat(), v);
+
+                    uint8_t target = (sel < LED_CONTROLLER_NUM_LAYERS) ? sel : LED_CONTROLLER_CAPS_SLOT;
+                    bool inherited = false;
+                    work = led_controller_resolve_hsv(target, &inherited);
+                    work.v = v;
+                    set_mask_with_hsv(led_controller_mask_for_sel(sel), work);
+
+                    break;
+                }
+
+
                 default:
                     return false;
             }
