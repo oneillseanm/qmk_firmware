@@ -50,8 +50,8 @@
     "url": "https://www.aokay.cool/mid-1",
     "usb": {
         "device_version": "0.1.0",
-        "pid": "0x414F",
-        "vid": "0x1001"
+        "pid": "0x1001",
+        "vid": "0x414F"
     },
     "ws2812": {
         "pin": "D0"
