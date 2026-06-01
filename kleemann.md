@@ -73,7 +73,7 @@ compile to `.hex` myself. Place the `.json` file here:
 Getting this working requires both a checked out copy of the qmk
 source tree and a separately compiled python application called
 qmk. The python program reads from the config file
-`~/.local/qmk/qmk.ini` in order to be associated with the source
+`~/.config/qmk/qmk.ini` in order to be associated with the source
 tree. Because of this, the source tree should not be too out of
 date. My source tree is `~/qmk_firmware_kleemann/`
 
