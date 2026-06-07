@@ -4,7 +4,7 @@
 
 ## Description
 
-A 40% keyboard with a staggered 4x12 layout and hotswap PCB.
+A 40% keyboard with a 4x12 layout. Two PCBs are available: hotswap staggered, and soldered ortholinear.
 
 * Keyboard Maintainer: [Sean O'Neill](https://github.com/oneillseanm)
 * Hardware Supported: MID.1
@@ -14,11 +14,13 @@ A 40% keyboard with a staggered 4x12 layout and hotswap PCB.
 
 Make example for this keyboard (after setting up your build environment):
 
-    make aokay/mid1:default
+    make aokay/mid1/hotswap:default
 
 Flashing example for this keyboard:
 
-    make aokay/mid1:default:flash
+    make aokay/mid1/hotswap:default:flash
+
+Replace `hotswap` with `soldered` as necessary.
 
 See the [build environment setup](https://docs.qmk.fm/#/getting_started_build_tools) and the [make instructions](https://docs.qmk.fm/#/getting_started_make_guide) for more information. Brand new to QMK? Start with our [Complete Newbs Guide](https://docs.qmk.fm/#/newbs).
 
