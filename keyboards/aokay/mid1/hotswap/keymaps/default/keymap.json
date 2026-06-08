@@ -1,45 +1,45 @@
 {
-    "config": {
-        "features": {
-            "encoder_map": true
-        }
-    },
-    "encoders": [
-        [
-            {
-                "ccw": "KC_VOLD",
-                "cw": "KC_VOLU"
-            },
-            {
-                "ccw": "KC_PGUP",
-                "cw": "KC_PGDN"
-            }
-        ],
-        [
-            {
-                "ccw": "UG_VALD",
-                "cw": "UG_VALU"
-            },
-            {
-                "ccw": "UG_HUED",
-                "cw": "UG_HUEU"
-            }
-        ],
-        [
-            {
-                "ccw": "UG_PREV",
-                "cw": "UG_NEXT"
-            },
-            {
-                "ccw": "UG_SATD",
-                "cw": "UG_SATU"
-            }
-        ]
+  "config": {
+    "features": {
+      "encoder_map": true
+    }
+  },
+  "encoders": [
+    [
+      {
+        "ccw": "KC_VOLD",
+        "cw": "KC_VOLU"
+      },
+      {
+        "ccw": "KC_PGUP",
+        "cw": "KC_PGDN"
+      }
     ],
-    "keyboard": "aokay/mid1",
-    "keymap": "default",
-    "layout": "LAYOUT_all",
-    "layers": [
+    [
+      {
+        "ccw": "UG_VALD",
+        "cw": "UG_VALU"
+      },
+      {
+        "ccw": "UG_HUED",
+        "cw": "UG_HUEU"
+      }
+    ],
+    [
+      {
+        "ccw": "UG_PREV",
+        "cw": "UG_NEXT"
+      },
+      {
+        "ccw": "UG_SATD",
+        "cw": "UG_SATU"
+      }
+    ]
+  ],
+  "keyboard": "aokay/mid1",
+  "keymap": "default",
+  "layout": "LAYOUT_all",
+  "layers": [
     [
       "KC_ESC",
       "KC_Q",
@@ -181,5 +181,5 @@
       "KC_TRNS",
       "KC_TRNS"
     ]
-    ]
+  ]
 }

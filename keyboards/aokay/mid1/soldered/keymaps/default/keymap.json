@@ -1,45 +1,45 @@
 {
-    "config": {
-        "features": {
-            "encoder_map": true
-        }
-    },
-    "encoders": [
-        [
-            {
-                "ccw": "KC_VOLD",
-                "cw": "KC_VOLU"
-            },
-            {
-                "ccw": "KC_PGUP",
-                "cw": "KC_PGDN"
-            }
-        ],
-        [
-            {
-                "ccw": "UG_VALD",
-                "cw": "UG_VALU"
-            },
-            {
-                "ccw": "UG_HUED",
-                "cw": "UG_HUEU"
-            }
-        ],
-        [
-            {
-                "ccw": "UG_PREV",
-                "cw": "UG_NEXT"
-            },
-            {
-                "ccw": "UG_SATD",
-                "cw": "UG_SATU"
-            }
-        ]
+  "config": {
+    "features": {
+      "encoder_map": true
+    }
+  },
+  "encoders": [
+    [
+      {
+        "ccw": "KC_VOLD",
+        "cw": "KC_VOLU"
+      },
+      {
+        "ccw": "KC_PGUP",
+        "cw": "KC_PGDN"
+      }
     ],
-    "keyboard": "aokay/mid1",
-    "keymap": "default",
-    "layout": "LAYOUT_all",
-    "layers": [
+    [
+      {
+        "ccw": "UG_VALD",
+        "cw": "UG_VALU"
+      },
+      {
+        "ccw": "UG_HUED",
+        "cw": "UG_HUEU"
+      }
+    ],
+    [
+      {
+        "ccw": "UG_PREV",
+        "cw": "UG_NEXT"
+      },
+      {
+        "ccw": "UG_SATD",
+        "cw": "UG_SATU"
+      }
+    ]
+  ],
+  "keyboard": "aokay/mid1",
+  "keymap": "default",
+  "layout": "LAYOUT_all",
+  "layers": [
     [
       "KC_ESC",
       "KC_Q",
@@ -52,8 +52,7 @@
       "KC_I",
       "KC_O",
       "KC_P",
-        "KC_BSPC",
-        
+      "KC_BSPC",
       "KC_TAB",
       "KC_A",
       "KC_S",
@@ -65,8 +64,7 @@
       "KC_K",
       "KC_L",
       "KC_SCLN",
-        "KC_QUOT",
-        
+      "KC_QUOT",
       "KC_LSFT",
       "KC_Z",
       "KC_X",
@@ -78,8 +76,7 @@
       "KC_COMM",
       "KC_DOT",
       "KC_SLSH",
-        "KC_RSFT",
-        
+      "KC_RSFT",
       "KC_LCTL",
       "KC_LGUI",
       "KC_LALT",
@@ -105,8 +102,7 @@
       "KC_UP",
       "KC_END",
       "KC_TRNS",
-        "KC_DEL",
-        
+      "KC_DEL",
       "KC_CAPS",
       "KC_TRNS",
       "KC_4",
@@ -118,8 +114,7 @@
       "KC_DOWN",
       "KC_RGHT",
       "KC_QUOT",
-        "KC_TRNS",
-        
+      "KC_TRNS",
       "KC_COMM",
       "KC_DOT",
       "KC_1",
@@ -131,8 +126,7 @@
       "KC_RBRC",
       "KC_BSLS",
       "KC_TRNS",
-        "KC_TRNS",
-        
+      "KC_TRNS",
       "UG_TOGG",
       "KC_TRNS",
       "KC_TRNS",
@@ -159,7 +153,6 @@
       "KC_TRNS",
       "KC_TRNS",
       "KC_TRNS",
-        
       "KC_TRNS",
       "KC_TRNS",
       "KC_TRNS",
@@ -172,7 +165,6 @@
       "KC_TRNS",
       "KC_TRNS",
       "KC_TRNS",
-        
       "KC_TRNS",
       "KC_TRNS",
       "KC_TRNS",
@@ -185,7 +177,6 @@
       "KC_TRNS",
       "KC_TRNS",
       "KC_TRNS",
-        
       "KC_TRNS",
       "KC_TRNS",
       "KC_TRNS",
@@ -198,7 +189,6 @@
       "KC_TRNS",
       "KC_TRNS",
       "KC_TRNS"
-        
     ]
-    ]
+  ]
 }
