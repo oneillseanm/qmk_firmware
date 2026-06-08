@@ -5,7 +5,7 @@
         "vid": "0x414F"
     },
     "layouts": {
-        "LAYOUT_all": {
+        "LAYOUT_225u_1u_275u": {
             "layout": [
                 {"label": "sw1", "matrix": [0, 0], "x": 0, "y": 0},
                 {"label": "sw2", "matrix": [0, 1], "x": 1, "y": 0},
@@ -44,12 +44,9 @@
                 {"label": "sw35", "matrix": [3, 0], "x": 0, "y": 3, "w": 1.5},
                 {"label": "sw36", "matrix": [3, 1], "x": 1.5, "y": 3},
                 {"label": "sw37", "matrix": [3, 2], "x": 2.5, "y": 3},
-                {"label": "sw38", "matrix": [3, 3], "x": 3.5, "y": 5, "w": 2.25},
-                {"label": "sw39", "matrix": [3, 4], "x": 3.5, "y": 3, "w": 2.75},
-                {"label": "sw40", "matrix": [3, 5], "x": 2.5, "y": 4, "w": 7},
-                {"label": "sw41", "matrix": [3, 6], "x": 6.25, "y": 3, "w": 2.25},
-                {"label": "sw42", "matrix": [3, 7], "x": 6.75, "y": 5, "w": 2.75},
-                {"label": "sw43", "matrix": [3, 8], "x": 8.5, "y": 3},
+                {"label": "sw38", "matrix": [3, 3], "x": 3.5, "y": 3, "w": 2.25},
+                {"label": "sw40", "matrix": [3, 5], "x": 5.75, "y": 3},
+                {"label": "sw42", "matrix": [3, 7], "x": 6.75, "y": 3, "w": 2.75},
                 {"label": "sw44", "matrix": [3, 9], "x": 9.5, "y": 3},
                 {"label": "sw45", "matrix": [3, 10], "x": 10.5, "y": 3, "w": 1.5}
             ]
@@ -143,7 +140,7 @@
                 {"label": "sw45", "matrix": [3, 10], "x": 10.5, "y": 3, "w": 1.5}
             ]
         },
-        "LAYOUT_225u_1u_275u": {
+        "LAYOUT_all": {
             "layout": [
                 {"label": "sw1", "matrix": [0, 0], "x": 0, "y": 0},
                 {"label": "sw2", "matrix": [0, 1], "x": 1, "y": 0},
@@ -182,9 +179,12 @@
                 {"label": "sw35", "matrix": [3, 0], "x": 0, "y": 3, "w": 1.5},
                 {"label": "sw36", "matrix": [3, 1], "x": 1.5, "y": 3},
                 {"label": "sw37", "matrix": [3, 2], "x": 2.5, "y": 3},
-                {"label": "sw38", "matrix": [3, 3], "x": 3.5, "y": 3, "w": 2.25},
-                {"label": "sw40", "matrix": [3, 5], "x": 5.75, "y": 3},
-                {"label": "sw42", "matrix": [3, 7], "x": 6.75, "y": 3, "w": 2.75},
+                {"label": "sw38", "matrix": [3, 3], "x": 3.5, "y": 5, "w": 2.25},
+                {"label": "sw39", "matrix": [3, 4], "x": 3.5, "y": 3, "w": 2.75},
+                {"label": "sw40", "matrix": [3, 5], "x": 2.5, "y": 4, "w": 7},
+                {"label": "sw41", "matrix": [3, 6], "x": 6.25, "y": 3, "w": 2.25},
+                {"label": "sw42", "matrix": [3, 7], "x": 6.75, "y": 5, "w": 2.75},
+                {"label": "sw43", "matrix": [3, 8], "x": 8.5, "y": 3},
                 {"label": "sw44", "matrix": [3, 9], "x": 9.5, "y": 3},
                 {"label": "sw45", "matrix": [3, 10], "x": 10.5, "y": 3, "w": 1.5}
             ]
