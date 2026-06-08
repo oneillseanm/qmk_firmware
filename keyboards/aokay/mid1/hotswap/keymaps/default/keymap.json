@@ -36,7 +36,7 @@
       }
     ]
   ],
-  "keyboard": "aokay/mid1",
+  "keyboard": "aokay/mid1/hotswap",
   "keymap": "default",
   "layout": "LAYOUT_all",
   "layers": [
